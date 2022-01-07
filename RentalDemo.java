@@ -1,15 +1,19 @@
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 public class RentalDemo {
     public static void main(String []args){
-        Rental[] rentals = new Rental[3];
+        Rental[] rentals = new Rental[8];
         for(int i =0; i<rentals.length; i++){
             rentals[i] = new Rental(contractNum(), rentalTime(), contactNum(), typesOfEquipment());
-        }
-        SammysRentalPriceWithMethods.motto();
+            }
+        //SammysRentalPriceWithMethods.motto();
         for(int i =0; i<rentals.length; i++){
             calcPrice(rentals[i]);
         }
+        display(rentals);
     }
     public static int rentalTime() {
         int rentTime = 0;
@@ -49,21 +53,58 @@ public class RentalDemo {
                 + rental.getMinutes() + " minutes for a total of \n $" + rental.getPrice() +"\nContract number: " +
                 rental.getContractNum() + "\nContact number: " + rental.getContactPhone());
     }
-    public static void displayCompare(Rental rental){
-        System.out.println("This object had a larger rental time of " + rental.getHours() + " hours and "
-                + rental.getMinutes() + " minutes\nContract number: " +
-                rental.getContractNum());
-    }
-    public static Rental largerRentTime(Rental rent1, Rental rent2){
-        if(rent1.minutes>rent2.minutes){
-            return rent1;
-        } else {
-            if(rent1.minutes<rent2.minutes){
-                return rent2;
-            } else {
-                System.out.println("Values were the same, returning first object");
-                return rent1;
+    public static void display(Rental[] rental){
+        Scanner input = new Scanner(System.in);
+        boolean hasQuit = false;
+        while(!hasQuit){
+            System.out.println("Enter (Q) to quit\nWhat would you like to sort?\n(C)Contract Num   (P)Price   (E)Equipment Type");
+            char c = input.nextLine().toUpperCase().charAt(0);
+            if(c == 'C'){
+                sortContract(rental);
+            } else if(c == 'P'){
+                sortPrice(rental);
+            } else if(c == 'E'){
+                sortEquipmentType(rental);
+            }
+            if(c == 'Q'){
+                hasQuit = true;
+            } else{
+                for(int i =0; i<rental.length; i++){
+                    System.out.println("Contract #"+rental[i].getContractNum()+": Renting "+rental[i].getTypesOfEquipment()+" for "+rental[i].getHours()+" hours and "+rental[i].getMinutes()+
+                            " minutes for $"+rental[i].getPrice()+" Contact: "+rental[i].getContactPhone());
+                }
             }
         }
     }
+    public static void sortContract(Rental[] rental){
+        for (int a = 1; a < rental.length; a++) {
+            Rental temp = rental[a];
+            Rental b = rental[a-1];
+            if (b.getContractNum().compareTo(temp.getContractNum()) > 0) {
+                rental[a] = rental [a-1];
+                rental[a-1] = temp;
+            }
+        }
+    }
+    public static void sortPrice(Rental[] rental){
+        for (int a = 1; a < rental.length; a++) {
+            Rental temp = rental[a];
+            Rental b = rental[a-1];
+            if (b.getPrice()>temp.getPrice()) {
+                rental[a] = rental [a-1];
+                rental[a-1] = temp;
+            }
+        }
+    }
+    public static void sortEquipmentType(Rental[] rental){
+        for (int a = 1; a < rental.length; a++) {
+            Rental temp = rental[a];
+            Rental b = rental[a-1];
+            if (b.getEquipmentType()>temp.getEquipmentType()) {
+                rental[a] = rental [a-1];
+                rental[a-1] = temp;
+            }
+        }
+    }
+
 }
