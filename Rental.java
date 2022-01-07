@@ -40,7 +40,8 @@ public class Rental {
     }
     public void setContractNumber(String contract) {
         contract = contract.toUpperCase();
-        if(!(contract.length() == 4) && (!Character.isLetter(contract.charAt(1))) && (!Character.isDigit(contract.charAt(2))) && (!Character.isDigit(contract.charAt(3))) && (!Character.isDigit(contract.charAt(4)))){
+        if((contract.length() == 4) && (Character.isLetter(contract.charAt(0))) && (Character.isDigit(contract.charAt(1))) && (Character.isDigit(contract.charAt(2))) && (Character.isDigit(contract.charAt(3)))){
+        } else {
             contract = "A000";
         }
         this.contractNum = contract;
