@@ -1,4 +1,4 @@
-public class Alien {
+public abstract class Alien {
     protected int eyes;
     protected int arms;
     protected String name;

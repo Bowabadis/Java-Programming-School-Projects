@@ -1,4 +1,7 @@
 public class Rental {
+    Equipment equipment;
+    int basePrice = 0;
+
     public final static int MIN_IN_HOUR = 60;
     public final static int MONEY_PER_HOUR = 40;
     String contractNum;
@@ -6,30 +9,21 @@ public class Rental {
     int minutes;
     int price;
     int equipmentType;
-    String[] typesOfEquipment = {"Personal Watercraft", "Pontoon Boat", "Rowboat", "Canoe", "Kayak", "Beach Chair", "Umbrella", "Other"};
     String contactPhone;
-    Rental(String num, int min, String contact, int equipNum){
+    Rental(String num, int min, int equipNum){
         setContractNumber(num);
+        if(equipNum>0 && equipNum<6){
+            equipment = new EquipmentWithLesson(equipNum);
+        } else {
+            equipment = new EquipmentWithoutLesson(equipNum);
+        }
         setHoursAndMinutes(min);
-        setContactPhone(contact);
-        setEquipmentType(equipNum);
-    }
-    Rental() {
-        setContractNumber("A000");
-        setHoursAndMinutes(0);
     }
     public void setEquipmentType(int type){
-        if(type>typesOfEquipment.length || type<0){
-            type = typesOfEquipment.length - 1;
-        }
         equipmentType = type;
-
     }
     public int getEquipmentType(){
         return equipmentType;
-    }
-    public String getTypesOfEquipment(){
-        return typesOfEquipment[equipmentType];
     }
     public void setContactPhone(String phone){
         String newPhone = "";
@@ -46,7 +40,7 @@ public class Rental {
     }
     public void setContractNumber(String contract) {
         contract = contract.toUpperCase();
-        if(!(contract.length() == 4) || (!Character.isLetter(contract.charAt(0))) || (!Character.isDigit(contract.charAt(1))) || (!Character.isDigit(contract.charAt(2))) || (!Character.isDigit(contract.charAt(3)))){
+        if(!(contract.length() == 4) && (!Character.isLetter(contract.charAt(1))) && (!Character.isDigit(contract.charAt(2))) && (!Character.isDigit(contract.charAt(3))) && (!Character.isDigit(contract.charAt(4)))){
             contract = "A000";
         }
         this.contractNum = contract;
@@ -55,10 +49,11 @@ public class Rental {
         hours = min/MIN_IN_HOUR;
         minutes = min%MIN_IN_HOUR;
         if(minutes>40){
-            price = hours*40 + 40;
+            basePrice = hours*40 + 40;
         } else {
-            price = (hours*MONEY_PER_HOUR) + minutes;
+            basePrice = (hours*MONEY_PER_HOUR) + minutes;
         }
+        price = basePrice + equipment.getFee();
     }
     public String getContractNum(){ return contractNum; }
     public int getHours(){ return hours; }

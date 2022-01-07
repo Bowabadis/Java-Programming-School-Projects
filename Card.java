@@ -2,14 +2,15 @@ public class Card {
     String suit;
     int cardNum;
     String rank;
-    public int getNum(){
-        return cardNum;
+    public Card(int n, String s){
+        setNum(n);
+        setSuit(s);
     }
     public void setNum(int num){
         this.cardNum = num;
-        switch (num){
+        switch (num) {
             case 1: rank = "Ace"; break;
-            case 11: rank = "Jack";  break;
+            case 11: rank = "Jack"; break;
             case 12: rank = "Queen"; break;
             case 13: rank = "King"; break;
             default: rank = Integer.toString(num);
