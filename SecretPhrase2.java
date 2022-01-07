@@ -49,4 +49,3 @@ public class SecretPhrase2 {
         return phrase;
     }
 }
-

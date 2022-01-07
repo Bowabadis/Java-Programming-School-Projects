@@ -2,19 +2,14 @@
 import java.util.Scanner;
 public class RentalDemo {
     public static void main(String []args){
-        Rental rental1 = new Rental(contractNum(), rentalTime(), contactPhone());
-        Rental rental2 = new Rental(contractNum(), rentalTime(), contactPhone());
-        Rental rental3 = new Rental(contractNum(), rentalTime(), contactPhone());
-        SammysRentalPriceWithMethods.motto();
-        calcPrice(rental1);
-        calcPrice(rental2);
-        calcPrice(rental3);
-        for (int i = 0; i < rental3.getHours(); ++i){
-            System.out.println("coupon good for 10 percent off next rental");
+        Rental[] rentals = new Rental[3];
+        for(int i =0; i<rentals.length; i++){
+            rentals[i] = new Rental(contractNum(), rentalTime(), contactNum(), typesOfEquipment());
         }
-        displayCompare(largerRentTime(rental1, rental2));
-        displayCompare(largerRentTime(rental1, rental3));
-        displayCompare(largerRentTime(rental3, rental2));
+        SammysRentalPriceWithMethods.motto();
+        for(int i =0; i<rentals.length; i++){
+            calcPrice(rentals[i]);
+        }
     }
     public static int rentalTime() {
         int rentTime = 0;
@@ -34,18 +29,25 @@ public class RentalDemo {
         return num;
 
     }
-    public static String contactPhone(){
+    public static String contactNum(){
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter a phone number >> ");
+        System.out.println("Enter contact number >> ");
         String num = input.nextLine();
         return num;
 
     }
+    public static int typesOfEquipment(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter an equipment type\n1: Personal Watercraft \n2: Pontoon Boat \n3: Rowboat \n4: Canoe \n5: Kayak \n6: Beach Chair \n7: Umbrella \n8: Other >> ");
+        int num = input.nextInt();
+        num = num -1;
+        return num;
+
+    }
     public static void calcPrice(Rental rental){
-        System.out.println("You are renting for " + rental.getHours() + " hours and "
-                + rental.getMinutes() + " minutes for a total of \n $" + rental.getPrice() + "\nPhone Number: " + rental.getContractPhone() +
-                "\nContract number: " +
-                rental.getContractNum());
+        System.out.println("You are renting '" + rental.getTypesOfEquipment() + "' for " + rental.getHours() + " hours and "
+                + rental.getMinutes() + " minutes for a total of \n $" + rental.getPrice() +"\nContract number: " +
+                rental.getContractNum() + "\nContact number: " + rental.getContactPhone());
     }
     public static void displayCompare(Rental rental){
         System.out.println("This object had a larger rental time of " + rental.getHours() + " hours and "
